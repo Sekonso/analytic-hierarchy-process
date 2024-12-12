@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AHP</title>
+
+    <link rel="stylesheet" href="style.css" />
+    <script type="module" src="main.js" defer></script>
+  </head>
+  <body>
+    <header><h1>ANALYTICAL HIERARCY PROCESS</h1></header>
+
+    <main>
+      <!-- PROBLEM DECOMPOSITION -->
+      <form id="decomposition-form">
+        <hr />
+        <h2>Dekomposisi Masalah</h2>
+        <hr />
+
+        <div id="goal-container" class="decomposition-container">
+          <h3>Tujuan</h3>
+          <input
+            type="text"
+            id="goal-input"
+            class="decomposition-input"
+            placeholder="Masukkan tujuan perhitungan..."
+            required
+          />
+        </div>
+
+        <div id="criteria-container" class="decomposition-container">
+          <h3>Kriteria</h3>
+          <div class="input-group" id="criteria-input-group">
+            <input
+              type="text"
+              class="criterion-input decomposition-input"
+              placeholder="Masukkan nama kriteria..."
+              required
+            />
+            <input
+              type="text"
+              class="criterion-input decomposition-input"
+              placeholder="Masukkan nama kriteria..."
+              required
+            />
+            <input
+              type="text"
+              class="criterion-input decomposition-input"
+              placeholder="Masukkan nama kriteria..."
+              required
+            />
+          </div>
+          <button type="button" id="add-criterion" class="small-button">Tambah kriteria</button>
+        </div>
+
+        <div id="altenatives-container" class="decomposition-container">
+          <h3>Alternatif</h3>
+          <div class="input-group" id="alternatives-input-group">
+            <input
+              type="text"
+              class="alternative-input decomposition-input"
+              placeholder="Masukkan nama alternatif..."
+              required
+            />
+            <input
+              type="text"
+              class="alternative-input decomposition-input"
+              placeholder="Masukkan nama alternatif..."
+              required
+            />
+            <input
+              type="text"
+              class="alternative-input decomposition-input"
+              placeholder="Masukkan nama alternatif..."
+              required
+            />
+          </div>
+          <button type="button" id="add-alternative" class="small-button">Tambah altenatif</button>
+        </div>
+
+        <button type="submit" class="full-button">Mulai hitung</button>
+      </form>
+
+      <!-- Dynamic container for comparison and result -->
+      <div id="dynamic-container"></div>
+    </main>
+
+    <hr />
+
+    <footer>
+      <h5>Made By Kelompok 4</h5>
+
+      <p>
+        Adriansyah | Badi Amnu Pramudiya | Dandy Daffa Raihan | Fajri Mahda Aulia | Muhammad Rafi
+        Aria Sarosa
+      </p>
+    </footer>
+  </body>
+</html>

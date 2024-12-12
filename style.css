@@ -1,0 +1,139 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  padding: 2rem;
+  margin: auto;
+  max-width: 540px;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+hr {
+  margin-block: 1rem;
+}
+
+input {
+  height: 35px;
+  padding: 0 0.5rem;
+}
+
+button {
+  padding: 0.5rem 1rem;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 20px 0;
+}
+table th,
+table td {
+  border: 1px solid #ddd;
+  text-align: left;
+  padding: 8px;
+}
+table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+footer {
+  font-size: 0.9rem;
+  opacity: 0.7;
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+footer h5 {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Utility */
+.full-button {
+  width: 100%;
+}
+
+/* DECOMPOSITION */
+.decomposition-container {
+  margin-bottom: 2rem;
+}
+
+.decomposition-input {
+  display: block;
+  width: 100%;
+  margin: 1rem 0;
+}
+
+/* COMPARISON */
+#comparison-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-block: 2rem;
+}
+
+.comparison-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.comparison-input-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.comparison-input {
+  width: 100px;
+}
+
+/* RESULT */
+#result-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.result-group h3 {
+  margin-block: 1rem;
+}
+
+
+
+.rank-table th {
+  text-align: center;
+}
+
+.rank-table tr:nth-child(1) th {
+  color: white;
+  text-shadow: 0 0 5px black;
+  background: linear-gradient(45deg, #fefcea 0%, #f1da36 100%);
+}
+.rank-table tr:nth-child(2) th {
+  color: white;
+  text-shadow: 0 0 5px black;
+  background: linear-gradient(45deg, #e2e2e2 0%, #dbdbdb 50%, #d1d1d1 51%, #fefefe 100%);
+}
+.rank-table tr:nth-child(3) th {
+  color: white;
+  text-shadow: 0 0 5px black;
+  background: linear-gradient(45deg, #f0b7a1 0%, #8c3310 50%, #752201 51%, #bf6e4e 100%);
+}
