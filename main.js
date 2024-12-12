@@ -44,27 +44,42 @@ decompositionForm.addEventListener("submit", (e) => {
 
 addCriterionButton.addEventListener("click", () => {
   const criteriaInputGroup = document.querySelector("#criteria-input-group");
-  const criterionInput = document.createElement("input");
+  const inputContainer = document.createElement("div");
 
-  criterionInput.classList.add("criterion-input", "decomposition-input");
-  criterionInput.setAttribute("type", "text");
-  criterionInput.setAttribute("placeholder", "Masukkan nama kriteria...");
-  criterionInput.required = true;
+  inputContainer.classList.add("input-container");
+  inputContainer.innerHTML = `
+    <input
+      type="text"
+      class="criterion-input decomposition-input"
+      placeholder="Masukkan nama kriteria..."
+      required
+    />
+    <button type="button" >Hapus</button>
+  `;
+  inputContainer.querySelector("button").addEventListener("click", () => inputContainer.remove());
 
-  criteriaInputGroup.appendChild(criterionInput);
+  criteriaInputGroup.appendChild(inputContainer);
 });
 
 addAlternativeButton.addEventListener("click", () => {
-  const alternativesInputGroup = document.querySelector("#alternatives-input-group");
-  const alternativeInput = document.createElement("input");
+  const criteriaInputGroup = document.querySelector("#alternatives-input-group");
+  const inputContainer = document.createElement("div");
 
-  alternativeInput.classList.add("alternative-input", "decomposition-input");
-  alternativeInput.setAttribute("type", "text");
-  alternativeInput.setAttribute("placeholder", "Masukkan nama kriteria...");
-  alternativeInput.required = true;
+  inputContainer.classList.add("input-container");
+  inputContainer.innerHTML = `
+    <input
+      type="text"
+      class="alternative-input decomposition-input"
+      placeholder="Masukkan nama alternatif..."
+      required
+    />
+    <button type="button" >Hapus</button>
+  `;
+  inputContainer.querySelector("button").addEventListener("click", () => inputContainer.remove());
 
-  alternativesInputGroup.appendChild(alternativeInput);
+  criteriaInputGroup.appendChild(inputContainer);
 });
+
 
 function renderComparisonForm(criteria = [], alternatives = []) {
   const comparisonForm = document.querySelector("#comparison-form");
@@ -90,22 +105,27 @@ function renderComparisonForm(criteria = [], alternatives = []) {
   comparisonForm.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    const allComparisonInput = document.querySelectorAll(".comparison-input");
-    allComparisonInput.forEach((comparisonInput) => {
-      const value = parseFloat(comparisonInput.value);
-
-      if (value === 0 || !value.isNaN() || value < -9 || value > 9) {
-        alert(
-          "Input invalid, nilai harus berupa angka diantara (-9) hingga (9) dan tidak boleh nol"
-        );
-      }
-
-      return;
-    });
-
-    const result = ahp(criteria, alternatives);
-    renderResult(result, goal, criteria, alternatives);
+    if (validateComparisonInput()) {
+      const result = ahp(criteria, alternatives);
+      renderResult(result, goal, criteria, alternatives);
+    }
   });
+}
+
+function validateComparisonInput() {
+  let isValid = true;
+  const allComparisonInput = document.querySelectorAll(".comparison-input");
+
+  allComparisonInput.forEach((comparisonInput) => {
+    const value = parseFloat(comparisonInput.value);
+
+    if (isNaN(value) || value <= -9 || value >= 9 || value === 0) {
+      alert("Input invalid, nilai harus berupa angka diantara (-9) hingga (9) dan tidak boleh nol");
+      isValid = false;
+    }
+  });
+
+  return isValid;
 }
 
 function createCriteriaComparison(criteria = []) {
