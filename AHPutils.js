@@ -1,6 +1,10 @@
 function ahp(criteria = [], alternatives = []) {
   const criteriaMatrix = pairwiseComparison(criteria, { isAlternatives: false, criterion: null });
   const normalizedCriteria = normalization(criteriaMatrix);
+  normalizedCriteria.consistencyRatio = consistencyRatio(
+    normalizedCriteria.weights,
+    normalizedCriteria.totals
+  );
 
   // Alternatives calculations
   const alternativesTables = {};
@@ -58,16 +62,13 @@ function pairwiseComparison(
 
       let comparisonValue = 0;
       if (alternatives.isAlternatives) {
-        comparisonValue = parseFloat(
-          document.querySelector(
-            `[data-criterion="${alternatives.criterion}"][data-value="${reference[rowIdx]},${reference[columnIdx]}"]`
-          ).value
-        );
+        comparisonValue = document.querySelector(
+          `[data-criterion="${alternatives.criterion}"][data-value="${reference[rowIdx]},${reference[columnIdx]}"]`
+        ).value;
       } else {
-        comparisonValue = parseFloat(
-          document.querySelector(`[data-value="${reference[rowIdx]},${reference[columnIdx]}"]`)
-            .value
-        );
+        comparisonValue = document.querySelector(
+          `[data-value="${reference[rowIdx]},${reference[columnIdx]}"]`
+        ).value;
       }
       const parsedValue = parseFloat(comparisonValue);
 
@@ -86,8 +87,8 @@ function pairwiseComparison(
 }
 
 function normalization(matrix = [[]]) {
-  const defaultMatrix = matrix;
-  const normalizedMatrix = matrix;
+  const defaultMatrix = JSON.parse(JSON.stringify(matrix));
+  const normalizedMatrix = JSON.parse(JSON.stringify(matrix));
   const totals = [];
   const vectors = [];
   const weights = [];
@@ -131,6 +132,31 @@ function normalization(matrix = [[]]) {
     vectors,
     weights
   };
+}
+
+function consistencyRatio(weights = [], totals = []) {
+  const randomIdx = [
+    0, 0, 0.58, 0.9, 1.12, 1.24, 1.32, 1.41, 1.45, 1.49, 1.51, 1.48, 1.56, 1.57, 1.59
+  ];
+  const eigenValue = weights
+    .map((weight, idx) => weight * totals[idx])
+    .reduce((sum, value) => {
+      console.log(value);
+      return sum + value;
+    }, 0);
+  const n = weights.length;
+
+  const consistencyIdx = (eigenValue - n) / (n - 1);
+
+  console.log("weights: ", weights);
+  console.log("totals: ", totals);
+  console.log("eigenValue: ", eigenValue);
+  console.log("consistencyIdx: ", consistencyIdx);
+  console.log("n: ", n);
+  console.log("RI: ", randomIdx[n - 1]);
+  console.log("CI: ", consistencyIdx / randomIdx[n - 1]);
+
+  return consistencyIdx / randomIdx[n - 1];
 }
 
 export default ahp;

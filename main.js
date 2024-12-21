@@ -46,6 +46,13 @@ addCriterionButton.addEventListener("click", () => {
   const criteriaInputGroup = document.querySelector("#criteria-input-group");
   const inputContainer = document.createElement("div");
 
+  // Max 15 check
+  const allCriteriaInput = document.querySelectorAll(".criterion-input");
+  if (allCriteriaInput.length >= 15) {
+    alert("Kami hanya menyediakan maksimal 15 kriteria");
+    return;
+  }
+
   inputContainer.classList.add("input-container");
   inputContainer.innerHTML = `
     <input
@@ -54,7 +61,7 @@ addCriterionButton.addEventListener("click", () => {
       placeholder="Masukkan nama kriteria..."
       required
     />
-    <button type="button" >Hapus</button>
+    <button type="button" class="danger" >Hapus</button>
   `;
   inputContainer.querySelector("button").addEventListener("click", () => inputContainer.remove());
 
@@ -73,13 +80,12 @@ addAlternativeButton.addEventListener("click", () => {
       placeholder="Masukkan nama alternatif..."
       required
     />
-    <button type="button" >Hapus</button>
+    <button type="button" class="danger" >Hapus</button>
   `;
   inputContainer.querySelector("button").addEventListener("click", () => inputContainer.remove());
 
   criteriaInputGroup.appendChild(inputContainer);
 });
-
 
 function renderComparisonForm(criteria = [], alternatives = []) {
   const comparisonForm = document.querySelector("#comparison-form");
@@ -108,6 +114,8 @@ function renderComparisonForm(criteria = [], alternatives = []) {
     if (validateComparisonInput()) {
       const result = ahp(criteria, alternatives);
       renderResult(result, goal, criteria, alternatives);
+    } else {
+      alert("Input invalid, nilai harus berupa angka diantara (-9) hingga (9) dan tidak boleh nol");
     }
   });
 }
@@ -119,8 +127,7 @@ function validateComparisonInput() {
   allComparisonInput.forEach((comparisonInput) => {
     const value = parseFloat(comparisonInput.value);
 
-    if (isNaN(value) || value <= -9 || value >= 9 || value === 0) {
-      alert("Input invalid, nilai harus berupa angka diantara (-9) hingga (9) dan tidak boleh nol");
+    if (isNaN(value) || value < -9 || value > 9 || value === 0) {
       isValid = false;
     }
   });
@@ -140,9 +147,10 @@ function createCriteriaComparison(criteria = []) {
         comparisonInputContainer.classList.add("comparison-input-container");
 
         comparisonInputContainer.innerHTML = `
-          <label>${criteria[i]} dibanding ${criteria[j]}</label>
+          <label for="${criteria[i]},${criteria[j]}" >${criteria[i]} dibanding ${criteria[j]}</label>
           <input 
             type="number" 
+            id="${criteria[i]},${criteria[j]}" 
             class="comparison-input" 
             placeholder="(-9) hingga (9)" 
             value="1" min="-9" max="9" 
@@ -174,9 +182,10 @@ function createAlternativesComparison(criteria = [], alternatives = []) {
           comparisonInputContainer.classList.add("comparison-input-container");
 
           comparisonInputContainer.innerHTML = `
-            <label>${alternatives[i]} dibanding ${alternatives[j]}</label>
+            <label for="${criterion}-${alternatives[i]}-${alternatives[j]}">${alternatives[i]} dibanding ${alternatives[j]}</label>
             <input 
-              type="number" 
+              type="number"
+              id="${criterion}-${alternatives[i]}-${alternatives[j]}"  
               class="comparison-input" 
               placeholder="(-9) hingga (9)" 
               value="1" min="-9" max="9" 
@@ -203,10 +212,12 @@ function renderResult(result, goal, criteria, alternatives) {
 
   resultContainer.innerHTML = "";
 
+  // Render criteria result
   resultFragment.appendChild(
     createResultGroup("Bobot kriteria", result.normalizedCriteria.weights, criteria)
   );
 
+  // Render alternative result
   for (const criterion of criteria) {
     resultFragment.appendChild(
       createResultGroup(
@@ -216,8 +227,14 @@ function renderResult(result, goal, criteria, alternatives) {
       )
     );
   }
-
   resultFragment.appendChild(createRanking(goal, result.ranking));
+
+  // Render consistency ratio
+  const consistencyRatio = document.createElement("h3");
+  const cr = result.normalizedCriteria.consistencyRatio.toFixed(6);
+  consistencyRatio.innerText =
+    "Consistency Ratio: " + cr + (cr < 0.1 ? " (Konsisten)" : " (Tidak konsisten)");
+  resultFragment.appendChild(consistencyRatio);
 
   resultContainer.appendChild(resultFragment);
 }
@@ -238,7 +255,7 @@ function createResultGroup(header = "", data = [], reference = []) {
 
     tr.innerHTML = `
       <th>${reference[idx]}</th>
-      <td>${datum.toFixed(3)}</td>
+      <td>${datum.toFixed(6)}</td>
     `;
     resultTable.appendChild(tr);
   });
@@ -262,7 +279,7 @@ function createRanking(goal, ranking) {
     tr.innerHTML = `
       <th>${idx + 1}</th>
       <td>${rank.alternative}</td>
-      <td>${rank.score.toFixed(3)}</td>
+      <td>${rank.score.toFixed(6)}</td>
     `;
     resultTable.appendChild(tr);
   });
