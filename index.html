@@ -11,6 +11,31 @@
   <body>
     <header><h1>ANALYTICAL HIERARCY PROCESS</h1></header>
 
+    <!-- GUIDE -->
+    <div class="guide">
+      <hr />
+      <h2>Panduan</h2>
+      <hr />
+      <div class="guide-container">
+        <section>
+          <h3>Cara penggunaan</h3>
+          <p>1. Tentukan tujuan, kriteria, dan alternatif</p>
+          <p>2. Bandingkan nilai setiap item (Dari -9 hingga 9, tidak boleh nol)</p>
+          <p>3. Cek hasil perhitungannya</p>
+        </section>
+        <section>
+          <h3>Catatan</h3>
+          <p>- Aplikasi ini hanya menyediakan maksimal 15 kriteria</p>
+          <p>
+            - Nilai perbandingan yang negatif akan otomatis diganti menjadi pecahan positif dibalik
+            layar, sesuai dengan cara metode AHP (contoh: -9 akan diganti menjadi 1/9)
+          </p>
+          <p>- Seluruh nilai dihitung menggunakan nilai murni tanpa pembulatan</p>
+          <p>- Pembulatan hanya digunakan ketika menampilkan nilai, bukan di perhitungan</p>
+        </section>
+      </div>
+    </div>
+
     <main>
       <!-- PROBLEM DECOMPOSITION -->
       <form id="decomposition-form">
@@ -59,7 +84,6 @@
               />
               <button type="button" disabled>Hapus</button>
             </div>
-
           </div>
           <button type="button" id="add-criterion" class="small-button">Tambah kriteria</button>
         </div>
